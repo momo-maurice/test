@@ -13,6 +13,11 @@ spec:
       chart: pihole
       helm:
         releaseName: pihole
+        valueFiles:
+        - $values/k8s-apps/pihole/values.yaml
+    - repoURL: 'https://git.example.com/org/value-files.git'
+    targetRevision: main
+    ref: values
    syncPolicy:
     syncOptions:
       - CreateNamespace=true
