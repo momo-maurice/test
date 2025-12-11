@@ -1,23 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  namespace: pihole
   name: pihole
 spec:
-  destination:
-    namespace: pihole
-    server: https://kubernetes.default.svc
   project: default
+  destination: 
+     namespace: pihole
+     server: https://kubernetes.default.svc
   sources:
-    - repoURL: https://mojo2600.github.io/pihole-kubernetes/
-      targetRevision: "2.15.0"
-      chart: pihole
-      helm:
-        releaseName: pihole
-        valueFiles:
-        - $values/k8s-apps/pihole/values.yaml
-    - repoURL: 'https://git.example.com/org/value-files.git'
-    targetRevision: main
+  - repoURL: https://mojo2600.github.io/pihole-kubernetes/
+    chart: pihole
+    targetRevision: 2.23.0
+    helm:
+      valueFiles:
+      - $values/k8s-apps/pihole/values.yaml
+  - repoURL: https://github.com/momo-maurice/test.git
     ref: values
-   syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
