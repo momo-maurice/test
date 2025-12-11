@@ -13,12 +13,6 @@ spec:
       chart: pihole
       helm:
         releaseName: pihole
-        valueFiles: 
-          - $values/k8s-apps/pihole/values.yaml
-    - repoURL: https://github.com/momo-maurice/test.git
-      ref: values
-      targetRevision: HEAD
-      path: k8s-apps/pihole/
-  syncPolicy:
+   syncPolicy:
     syncOptions:
       - CreateNamespace=true
