@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: esphome
+spec:
+  destination:
+    namespace: esphome
+    server: https://kubernetes.default.svc
+  source:
+    path: ''
+    repoURL: https://k8s-at-home.com/charts
+    targetRevision: 8.4.2
+    chart: esphome
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+      enabled: true
