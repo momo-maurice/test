@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/momo-maurice/k8s-apps
+    repoURL: https://github.com/momo-maurice/test/k8s-apps
     targetRevision: HEAD
     path: apps
   destination:
