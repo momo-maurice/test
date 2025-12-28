@@ -12,11 +12,10 @@ spec:
       helm:
         releaseName: pihole
         valueFiles: 
-          - $values/pihole/values.yaml
-    - repoURL: https://github.com/momo-maurice/
+          - $values/test/k8s-apps/pihole/values.yaml
+    - repoURL: https://github.com/momo-maurice/test.git
       ref: values
       targetRevision: HEAD
-      path: test/k8s-apps
   destination:
     server: https://kubernetes.default.svc
     namespace: pihole
