@@ -1,0 +1,27 @@
+https://github.com/SynologyOpenSource/synology-csi/tree/main/deploy/helm
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: synology
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
+      targetRevision: 0.10.1
+      chart: synology-csi
+      helm:
+        releaseName: synology
+        valueFiles: 
+          - $values/k8s-apps/synology/values.yaml
+    - repoURL: https://github.com/momo-maurice/test.git
+      ref: values
+      targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pihole
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
