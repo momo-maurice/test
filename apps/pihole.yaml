@@ -13,7 +13,7 @@ spec:
         releaseName: pihole
         valueFiles: 
           - $values/pihole/values.yaml
-    - repoURL: https://github.com/momo-maurice/test.git
+    - repoURL: https://github.com/momo-maurice/
       ref: values
       targetRevision: HEAD
       path: test/k8s-apps
