@@ -5,22 +5,18 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://mojo2600.github.io/pihole-kubernetes/
-    targetRevision: 2.35.0
-    helm:
-      parameters:
-        - name: DNS1
-          value: 192.168.7.1
-    chart: pihole
-    helm:
-      releaseName: pihole
-      valueFiles: 
-        - $values/pihole/values.yaml
-    repoURL: https://github.com/momo-maurice/test.git
-    ref: values
-    targetRevision: HEAD
-    path: test/k8s-apps
+  sources:
+   -  repoURL: https://mojo2600.github.io/pihole-kubernetes/
+      targetRevision: 2.35.0
+      chart: pihole
+      helm:
+        releaseName: pihole
+        valueFiles: 
+          - $values/pihole/values.yaml
+    - repoURL: https://github.com/momo-maurice/test.git
+      ref: values
+      targetRevision: HEAD
+      path: test/k8s-apps
   destination:
     server: https://kubernetes.default.svc
     namespace: pihole
