@@ -13,6 +13,14 @@ spec:
         - name: DNS1
           value: 192.168.7.1
     chart: pihole
+    helm:
+      releaseName: pihole
+      valueFiles: 
+        - $values/values.yaml
+    repoURL: https://github.com/momo-maurice/test.git
+    ref: values
+    targetRevision: HEAD
+    path: k8s-apps/pihole/
   destination:
     server: https://kubernetes.default.svc
     namespace: pihole
