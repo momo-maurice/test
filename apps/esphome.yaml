@@ -8,8 +8,8 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: ''
-    repoURL: https://k8s-at-home.com/charts
-    targetRevision: 8.4.2
+    repoURL: https://charts.jeffresc.dev
+    targetRevision: 0.1.10
     chart: esphome
   sources: []
   project: default
