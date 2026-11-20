@@ -15,6 +15,9 @@ spec:
       releaseName: synology-csi
 
       values: |
+        images:
+          plugin:
+            tag: v1.3.1
         clientInfoSecret:
           create: false
           name: synology-csi-client-info
