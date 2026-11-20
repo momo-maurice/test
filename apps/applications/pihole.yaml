@@ -12,7 +12,7 @@ spec:
       helm:
         releaseName: pihole
         valueFiles: 
-          - - $values/releases/pihole/values.yaml
+          - $values/releases/pihole/values.yaml
     - repoURL: https://github.com/momo-maurice/test.git
       ref: values
       targetRevision: HEAD
