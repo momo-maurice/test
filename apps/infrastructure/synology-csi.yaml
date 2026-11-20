@@ -1,0 +1,69 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: synology-csi
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
+    chart: synology-csi
+    targetRevision: "0.11.4"
+
+    helm:
+      releaseName: synology-csi
+
+      values: |
+        clientInfoSecret:
+          create: false
+          name: synology-csi-client-info
+
+        storageClasses:
+          synology-iscsi-retain:
+            reclaimPolicy: Retain
+            parameters:
+              dsm: "192.168.7.22"
+              location: "/volume1"
+              protocol: iscsi
+              fsType: ext4
+
+          synology-iscsi-delete:
+            reclaimPolicy: Delete
+            parameters:
+              dsm: "192.168.7.22"
+              location: "/volume1"
+              protocol: iscsi
+              fsType: ext4
+
+          synology-nfs-retain:
+            reclaimPolicy: Retain
+            parameters:
+              dsm: "192.168.7.22"
+              location: "/volume1/kubernetes"
+              protocol: nfs
+
+          synology-nfs-delete:
+            reclaimPolicy: Delete
+            parameters:
+              dsm: "192.168.1.50"
+              location: "/volume1/kubernetes"
+              protocol: nfs
+
+        volumeSnapshotClasses:
+          delete:
+            disabled: true
+          retain:
+            disabled: true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: synology-csi
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
