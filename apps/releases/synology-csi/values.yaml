@@ -1,5 +1,14 @@
 ---
+
+images:
+  plugin:
+    image: synology/synology-csi
+    pullPolicy: IfNotPresent
+    tag: "v1.3.1"
 # The client info secret defines how the K8s nodes can connect to the Synology Diskstation Manager (DSM).
+clientInfoSecret:
+  create: false
+  name: synology-csi-client-info
 # Specifies affinity, nodeSelector and tolerations for the controller StatefulSet
 controller:
   affinity: { }
@@ -66,7 +75,7 @@ storageClasses:
     ## Optional: `true` or `false` (default):
     #disabled: false
     ## Optional: `true` or `false` (default):
-    #isDefault: false
+    isDefault: true
     ## If not present, some location will be chosen to create volumes with the filesystem type ext4.
     ## Note that these parameters cannot get updated once deployed - any subsequent changes get ignored!
     #parameters:

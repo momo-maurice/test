@@ -1,29 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: synology-csi
   namespace: argocd
 spec:
   project: default
-
-  source:
-    repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
-    chart: synology-csi
-    targetRevision: "0.11.4"
-
-    helm:
-      releaseName: synology-csi
-      valueFiles:
-        - $values/releases/synology-csi/values.yaml
- 
+  sources:
+    - repoURL: https://christian-schlichtherle.github.io/synology-csi-chart
+      chart: synology-csi
+      targetRevision: "0.11.4"
+      helm:
+        releaseName: synology-csi
+        valueFiles:
+          - $values/releases/synology-csi/values.yaml
+    - repoURL: https://github.com/momo-maurice/test.git
+      targetRevision: HEAD
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: synology-csi
-
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-
     syncOptions:
       - CreateNamespace=true
+
