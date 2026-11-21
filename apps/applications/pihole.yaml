@@ -21,7 +21,7 @@ spec:
       ref: values
 
   destination:
-    server: https://default.svc
+    server: https://kubernetes.default.svc
     namespace: pihole
 
   syncPolicy:
