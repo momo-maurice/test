@@ -1,10 +1,5 @@
 ---
 
-images:
-  plugin:
-    image: synology/synology-csi
-    pullPolicy: IfNotPresent
-    tag: "v1.3.1"
 # The client info secret defines how the K8s nodes can connect to the Synology Diskstation Manager (DSM).
 clientInfoSecret:
   create: false
@@ -30,7 +25,7 @@ images:
     image: synology/synology-csi
     pullPolicy: IfNotPresent
     # Defaults to {{ $.Chart.AppVersion }} if empty or not present:
-    tag: ""
+    tag: "v1.3.1"
   # https://kubernetes-csi.github.io/docs/external-provisioner.html
   provisioner:
     image: registry.k8s.io/sig-storage/csi-provisioner
