@@ -13,7 +13,7 @@ spec:
       helm:
         releaseName: synology-csi
         valueFiles:
-          - $values/releases/synology-csi/values.yaml
+          - $values/apps/releases/synology-csi/values.yaml
     - repoURL: https://github.com/momo-maurice/test.git
       targetRevision: HEAD
       ref: values
