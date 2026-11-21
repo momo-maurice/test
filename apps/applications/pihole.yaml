@@ -6,22 +6,27 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: https://mojo2600.github.io/pihole-kubernetes/
-      targetRevision: 2.35.0
+    # Source 1: The HelmForge OCI chart
+    - repoURL: ghcr.io/helmforgedev/helm
       chart: pihole
+      targetRevision: 2.2.0 # Check HelmForge docs/ArtifactHub for exact latest version
       helm:
         releaseName: pihole
-        valueFiles: 
+        valueFiles:
           - $values/releases/pihole/values.yaml
+
+    # Source 2: Your Git repository containing the values file
     - repoURL: https://github.com/momo-maurice/test.git
+      targetRevision: main
       ref: values
-      targetRevision: HEAD
+
   destination:
-    server: https://kubernetes.default.svc
+    server: https://default.svc
     namespace: pihole
+
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
