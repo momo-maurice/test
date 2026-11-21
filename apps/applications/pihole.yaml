@@ -13,7 +13,7 @@ spec:
       helm:
         releaseName: pihole
         valueFiles:
-          - $values/releases/pihole/values.yaml
+          - $values/apps/releases/pihole/values.yaml
 
     # Source 2: Your Git repository containing the values file
     - repoURL: https://github.com/momo-maurice/test.git
