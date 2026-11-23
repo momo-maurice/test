@@ -14,7 +14,6 @@ freeipa:
     - "--unattended"
     - "--realm=ORANGEMEN.NL"
     - "--domain=orangemen.nl"
-    - "--no-dns"
     - "--no-ntp"
 
 persistence:
