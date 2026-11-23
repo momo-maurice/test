@@ -24,6 +24,14 @@ spec:
         - name: freeipa
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
+                - NET_ADMIN
+                - DAC_OVERRIDE
+                - SETUID
+                - SETGID
           tty: true
           stdin: true
           args:
