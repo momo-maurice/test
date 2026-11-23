@@ -14,8 +14,7 @@ freeipa:
     - "--unattended"
     - "--realm=EXAMPLE.LOCAL"
     - "--domain=example.local"
-    - "--setup-dns"
-    - "--no-forwarders"
+    - "--no-dns"
     - "--no-ntp"
 
 persistence:
