@@ -17,7 +17,7 @@ spec:
     spec:
       hostname: {{ .Values.freeipa.hostname | splitList "." | first }}
       subdomain: {{ .Release.Name }}
-      hostUsers: false
+      # hostUsers: false
       securityContext:
         fsGroup: 0
       containers:
@@ -25,13 +25,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
-            capabilities:
-              add:
-                - SYS_ADMIN
-                - NET_ADMIN
-                - DAC_OVERRIDE
-                - SETUID
-                - SETGID
+            privileged: true
           tty: true
           stdin: true
           args:
