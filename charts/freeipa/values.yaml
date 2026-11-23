@@ -4,7 +4,7 @@ image:
   pullPolicy: IfNotPresent
 
 freeipa:
-  hostname: ipa.orangemen.nl
+  hostname: ipa2.orangemen.nl
   realm: ORANGEMEN.NL
   domain: orangemen.nl
   # Change these or reference an existing ExternalSecret
