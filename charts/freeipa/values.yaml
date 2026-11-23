@@ -10,7 +10,13 @@ freeipa:
   # Change these or reference an existing ExternalSecret
   adminPassword: "System32"
   dsPassword: "System32"
-  installOpts: "--unattended --no-dns --no-forwarders --no-ntp"
+  installOpts:
+    - "--unattended"
+    - "--realm=EXAMPLE.LOCAL"
+    - "--domain=example.local"
+    - "--setup-dns"
+    - "--no-forwarders"
+    - "--no-ntp"
 
 persistence:
   enabled: true
