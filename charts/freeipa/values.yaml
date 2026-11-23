@@ -12,8 +12,8 @@ freeipa:
   dsPassword: "System32"
   installOpts:
     - "--unattended"
-    - "--realm=EXAMPLE.LOCAL"
-    - "--domain=example.local"
+    - "--realm=ORANGEMEN.NL"
+    - "--domain=orangemen.nl"
     - "--no-dns"
     - "--no-ntp"
 

@@ -29,7 +29,7 @@ spec:
           tty: true
           stdin: true
           args:
-            - {{ .Values.freeipa.installOpts | quote }}
+            {{- toYaml .Values.freeipa.installOpts | nindent 12 }}
           env:
             - name: IPA_SERVER_HOSTNAME
               value: {{ .Values.freeipa.hostname | quote }}
