@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  serviceName: {{ .Release.Name }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      hostname: {{ .Values.freeipa.hostname | splitList "." | first }}
+      subdomain: {{ .Release.Name }}
+      hostUsers: false
+      securityContext:
+        fsGroup: 0
+      containers:
+        - name: freeipa
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          tty: true
+          stdin: true
+          args:
+            - {{ .Values.freeipa.installOpts | quote }}
+          env:
+            - name: IPA_SERVER_HOSTNAME
+              value: {{ .Values.freeipa.hostname | quote }}
+            - name: IPA_SERVER_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secrets
+                  key: admin-password
+            - name: DS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secrets
+                  key: ds-password
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+            - name: ldap
+              containerPort: 389
+              protocol: TCP
+            - name: ldaps
+              containerPort: 636
+              protocol: TCP
+            - name: kerberos-tcp
+              containerPort: 88
+              protocol: TCP
+            - name: kerberos-udp
+              containerPort: 88
+              protocol: UDP
+            - name: kpasswd-tcp
+              containerPort: 464
+              protocol: TCP
+            - name: kpasswd-udp
+              containerPort: 464
+              protocol: UDP
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+          startupProbe:
+            exec:
+              command:
+                - /usr/bin/systemctl
+                - is-system-running
+                - --wait
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            failureThreshold: 60 # Allows up to 15 mins for initial ipa-server-install
+          readinessProbe:
+            tcpSocket:
+              port: 443
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: systemd-tmp
+              mountPath: /tmp
+            - name: systemd-run
+              mountPath: /run
+            - name: cgroup
+              mountPath: /sys/fs/cgroup
+              readOnly: true
+      volumes:
+        - name: systemd-tmp
+          emptyDir:
+            medium: Memory
+        - name: systemd-run
+          emptyDir:
+            medium: Memory
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup
+            type: Directory
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: {{ .Values.persistence.storageClass | quote }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size }}
+  {{- end }}

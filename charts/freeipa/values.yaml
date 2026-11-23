@@ -1,0 +1,29 @@
+image:
+  repository: quay.io/freeipa/freeipa-server
+  tag: fedora-44
+  pullPolicy: IfNotPresent
+
+freeipa:
+  hostname: ipa.orangemen.nl
+  realm: ORANGEMEN.NL
+  domain: orangemen.nl
+  # Change these or reference an existing ExternalSecret
+  adminPassword: "System32"
+  dsPassword: "System32"
+  installOpts: "--unattended --no-dns --no-forwarders --no-ntp"
+
+persistence:
+  enabled: true
+  storageClass: "synology-csi-iscsi-delete" # Match your RKE2 storage class
+  size: 10Gi
+
+service:
+  type: LoadBalancer # Use MetalLB/kube-vip on RKE2, or switch to NodePort
+  loadBalancerIP: "192.168.7.232" # Optional: pin a static IP for DNS/Kerberos stability
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1536Mi
+  limits:
+    memory: 3Gi

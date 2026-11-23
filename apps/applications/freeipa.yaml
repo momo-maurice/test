@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: freeipa
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/momo-maurice/test.git
+    targetRevision: HEAD
+    path: charts/freeipa
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://default.svc
+    namespace: freeipa
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
